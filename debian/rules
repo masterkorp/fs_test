@@ -175,7 +175,23 @@ config.status: configure
 	touch modules.conf
 	echo $(MODULES)
 	for i in $(MODULES); do echo $$i >> modules.conf; done
-	./configure --prefix=/opt/freeswitch --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) ${FEATURES}
+	  ./configure --bindir=/usr/bin \
+		--sbindir=/usr/sbin \
+		--localstatedir=/var \
+		--sysconfdir=/etc/freeswitch \
+		--datarootdir=/usr/share \
+		--libexecdir=/usr/lib/freeswitch \
+		--libdir=/usr/lib/freeswitch \
+		--includedir=/usr/include/freeswitch \
+		--with-recordingsdir=/var/spool/freeswitch/recordings \
+		--with-dbdir=/var/spool/freeswitch/db \
+		--with-pkgconfigdir=/usr/lib/pkgconfig \
+		--with-logfiledir=/var/log/freeswitch \
+		--with-modinstdir=/usr/lib/freeswitch/mod \
+		--with-rundir=/run/freeswitch \
+		--prefix=/usr/share/freeswitch \
+		--host=$(DEB_HOST_GNU_TYPE) \
+		--build=$(DEB_BUILD_GNU_TYPE) ${FEATURES}
 
 build: build-stamp
 build-stamp:  config.status

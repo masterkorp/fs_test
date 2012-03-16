@@ -1,6 +1,6 @@
-opt/freeswitch/conf/lang/he/demo/demo-ivr.xml
-opt/freeswitch/conf/lang/he/demo/demo.xml
-opt/freeswitch/conf/lang/he/dir/sounds.xml
-opt/freeswitch/conf/lang/he/he.xml
-opt/freeswitch/conf/lang/he/vm/sounds.xml
-opt/freeswitch/mod/mod_say_he.so*
+etc/freeswitch/lang/he/demo/demo-ivr.xml
+etc/freeswitch/lang/he/demo/demo.xml
+etc/freeswitch/lang/he/dir/sounds.xml
+etc/freeswitch/lang/he/he.xml
+etc/freeswitch/lang/he/vm/sounds.xml
+usr/lib/freeswitch/mod/mod_say_he.so*

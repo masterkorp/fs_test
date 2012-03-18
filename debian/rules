@@ -244,7 +244,7 @@ binary-arch: build install
 	dh_link
 	dh_strip --dbg-package=freeswitch-dbg
 	dh_compress
-	dh_fixperms --exclude /opt/freeswitch/conf
+	dh_fixperms --exclude /etc/freeswitch
 	dh_makeshlibs
 	dh_shlibdeps
 	dh_installdeb

@@ -3,7 +3,7 @@ etc/freeswitch/autoload_configs/freetdm.conf.xml
 etc/freeswitch/pika.conf
 etc/freeswitch/freetdm.conf
 etc/freeswitch/wanpipe.conf
-etc/freeswitch/conf/zt.conf
+etc/freeswitch/zt.conf
 usr/lib/freeswitch/libfreetdm.so*
 usr/lib/freeswitch/mod/mod_freetdm.so*
 usr/lib/freeswitch/mod/ftm*.so*

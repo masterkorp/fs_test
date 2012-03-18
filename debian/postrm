@@ -19,21 +19,14 @@
 
 
 case "$1" in
-     purge)
-	rm -Rf /etc/opt/freeswitch
-	rm -Rf /opt/freeswitch
-	userdel freeswitch
-        ;; 
- 
-     remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-
-
-        ;;
-
-    *)
-        echo "postrm called with unknown argument \`$1'" >&2
-        exit 1
-
+  purge)
+    userdel freeswitch
+  ;; 
+  remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+  ;;
+  *)
+    echo "postrm called with unknown argument \`$1'" >&2
+    exit 1
 esac
 
 # dh_installdeb will replace this with shell code automatically

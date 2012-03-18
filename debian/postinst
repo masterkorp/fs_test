@@ -22,34 +22,21 @@
 case "$1" in
 	configure)
 		if ! getent passwd freeswitch >/dev/null; then
-			adduser --disabled-password  --quiet --system \
-			--home /opt/freeswitch \
-			--gecos "FreeSWITCH Voice Platform" --ingroup daemon \
-			freeswitch
-			adduser freeswitch audio
-               else
-                       if [ "$(getent passwd freeswitch | cut -d : -f 6)" != "/opt/freeswitch" ]; then
-                               echo "Error: pre-existing freeswitch user with non-standard home directory." >&2
-                               exit 1
-                       fi
-                       usermod -d /opt/freeswitch -c "FreeSWITCH daemon,,," \
-                               -g daemon -G audio freeswitch
+			adduser --disabled-password  --quiet --system --no-create-home  --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
+     else
+       if [ "$(getent passwd freeswitch | cut -d : -f 6)" != "/opt/freeswitch" ]; then
+         echo "Error: pre-existing freeswitch user with non-standard home directory." >&2
+         exit 1
+       fi
+       usermod -c "FreeSWITCH daemon,,," -g daemon -G audio freeswitch
 		fi
- 
-		mkdir -p /opt/freeswitch
-		chown -R freeswitch:daemon /opt/freeswitch/
-		chmod -R o-rwx /opt/freeswitch/
-
-    ;;
-
-    abort-upgrade|abort-remove|abort-deconfigure)
-
-    ;;
-
-    *)
-        echo "postinst called with unknown argument \`$1'" >&2
-        exit 1
-    ;;
+  ;;
+  abort-upgrade|abort-remove|abort-deconfigure)
+  ;;
+  *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
 esac
 
 # dh_installdeb will replace this with shell code automatically

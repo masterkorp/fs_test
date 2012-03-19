@@ -1,0 +1,77 @@
+Freeswitch for Debian
+---------------------
+
+Buillt with the following features: 
+  - ODBC support
+  - Libedit support
+  - Openssl
+  - Curl 
+
+The following modules are built-in
+  - mod_avmd
+  - mod_avmd
+  - mod_callcenter
+  - mod_cdr_csv
+  - mod_celt.so*
+  - mod_cidlookup
+  - mod_cluechoo
+  - mod_console
+  - mod_codec2
+  - mod_commands
+  - mod_conference
+  - mod_console
+  - mod_curl
+  - mod_db
+  - mod_dialplan
+  - mod_dingaling
+  - mod_directory
+  - mod_distributor
+  - mod_dptools
+  - mod_easyroute
+  - mod_enum
+  - mod_esf
+  - mod_event
+  - mod_expr
+  - mod_fifo
+  - mod_flite
+  - mod_fsv
+  - mod_hash
+  - mod_h26x
+  - mod_ilbc
+  - mod_lcr
+  - mod_limit
+  - mod_local_stream
+  - mod_logfile
+  - mod_loopback
+  - mod_memcache
+  - mod_mp4v
+  - mod_native_file
+  - mod_nibblebill
+  - mod_portaudio
+  - mod_portaudio_stream
+  - mod_redis
+  - mod_rss
+  - mod_shout
+  - mod_silk
+  - mod_siren
+  - mod_skinny
+  - mod_skypopen
+  - mod_sndfile
+  - mod_snom
+  - mod_cdr_sqlite
+  - mod_sofia
+  - mod_spandsp
+  - mod_speex
+  - mod_spy
+  - mod_syslog
+  - mod_theora
+  - mod_timerfd
+  - mod_tone_stream
+  - mod_tts_commandline
+  - mod_valet_parking
+  - mod_vmd
+  - mod_voicemail
+  - mod_xml
+
+
+    -- Alfredo Palhares <masterkorp@masterkorp.net>  Thu, 19 Mar 2012 11:06:21 +0000

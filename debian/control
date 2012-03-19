@@ -2,7 +2,7 @@ Source: freeswitch
 Section: comm
 Priority: extra
 Maintainer: FreeSWITCH developers <freeswitch-dev@lists.freeswitch.org>
-Uploaders: Michal Bielicki <michal.bielicki@seventhsignal.pl>, Gabriel Gunderson <gabe@gundy.org>, William King <quentusrex@gmail.com>, Mathieu Parent <sathieu@debian.org>
+Uploaders: Michal Bielicki <michal.bielicki@seventhsignal.pl>, Gabriel Gunderson <gabe@gundy.org>, William King <quentusrex@gmail.com>, Mathieu Parent <sathieu@debian.org>, Alfredo Palhares <masterkorp@masterkorp.net>
 Build-Depends: debhelper (>= 7), wget, automake (>=1.9), autoconf, libtool,
  unixodbc-dev, libasound2-dev, libcurl3-openssl-dev|libcurl4-openssl-dev,
  libssl-dev, ncurses-dev, libogg-dev, libvorbis-dev, libperl-dev, libgdbm-dev,

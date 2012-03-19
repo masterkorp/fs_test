@@ -1,0 +1,8 @@
+Freeswitch for Debian
+---------------------
+
+- Building from upstream
+  
+  When building from upstream you should bump the version to the date of the 
+  last commit in the control file and you run rules upstream-convert that renames
+  the folder and creates a orig file.

@@ -1,3 +1,12 @@
+freeswitch (1.0.head-git.master.20120319.1-1) unstable; urgency=low
+
+  * New install tree, debian policy compatible.
+  * New init script
+  * Added a README
+  * Added a TODO
+
+ -- Alfredo Palhares <masterkorp@masterkorp.net>  Mon, 19 May 2012 21:13:22 +0000
+
 freeswitch (1.0.head-git.master.20110530.1-1) unstable; urgency=low
 
   * added mod_cdr_sqlite

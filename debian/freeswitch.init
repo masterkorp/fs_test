@@ -98,6 +98,7 @@ do_stop()
 #
 # Function that sends a SIGHUP to the daemon/service
 #
+# FIXME: This is not working properly
 do_reload() {
 	start-stop-daemon -c $USER --stop --signal 1 --quiet --pidfile $PIDFILE --name $NAME
 	return 0
@@ -156,6 +157,7 @@ case "$1" in
 		;;
     esac
 	;;
+  # TODO: Add status option
   *)
     echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
     exit 3

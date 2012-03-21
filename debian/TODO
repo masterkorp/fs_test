@@ -1,0 +1,8 @@
+TODO
+----
+
+BUG: Init script - -ncwait option is not working sometimes, unknown reason.
+BUG: Init script - reload option is not working properly.
+Init script - add status function.
+Remove the debian/ directory from the upstream tree.
+Add debian/watch to get code from upstream and tame it.

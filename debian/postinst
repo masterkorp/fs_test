@@ -23,13 +23,13 @@ case "$1" in
 	configure)
 		if ! getent passwd freeswitch >/dev/null; then
 			adduser --disabled-password  --quiet --system --no-create-home  --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
-     else
-       if [ "$(getent passwd freeswitch | cut -d : -f 6)" != "/opt/freeswitch" ]; then
-         echo "Error: pre-existing freeswitch user with non-standard home directory." >&2
-         exit 1
-       fi
+    else
        usermod -c "FreeSWITCH daemon,,," -g daemon -G audio freeswitch
 		fi
+    # Chown vital dirs
+    mkdir -p /var/{run,spool,log}/freeswitch
+    chown -R freeswitch /var/{run,spool,log}/freeswitch
+    chown -R freeswitch /etc/freeswitch
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;

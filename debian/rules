@@ -188,7 +188,7 @@ config.status: configure
 		--with-pkgconfigdir=/usr/lib/pkgconfig \
 		--with-logfiledir=/var/log/freeswitch \
 		--with-modinstdir=/usr/lib/freeswitch/mod \
-		--with-rundir=/run/freeswitch \
+		--with-rundir=/var/run/freeswitch \
 		--prefix=/usr/share/freeswitch \
 		--host=$(DEB_HOST_GNU_TYPE) \
 		--build=$(DEB_BUILD_GNU_TYPE) ${FEATURES}

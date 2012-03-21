@@ -1,6 +1,8 @@
 Freeswitch for Debian
 ---------------------
 
+It starts under a non-priviliged freeswitch user for safety.
+
 Buillt with the following features: 
   - ODBC support
   - Libedit support
@@ -72,6 +74,5 @@ The following modules are built-in
   - mod_vmd
   - mod_voicemail
   - mod_xml
-
 
     -- Alfredo Palhares <masterkorp@masterkorp.net>  Thu, 19 Mar 2012 11:06:21 +0000

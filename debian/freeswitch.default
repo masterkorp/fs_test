@@ -7,4 +7,5 @@ FREESWITCH_ENABLED="true"
 
 # The parameters Freeswitch should be started with
 
+# WARNING: -ncwait option is not working at the moment! Use at your own risk!
 FREESWITCH_PARAMS="-nc"

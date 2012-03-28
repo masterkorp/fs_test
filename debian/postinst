@@ -22,7 +22,7 @@
 case "$1" in
 	configure)
 		if ! getent passwd freeswitch >/dev/null; then
-			adduser --disabled-password  --quiet --system --no-create-home  --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
+			adduser --disabled-password  --quiet --system --home /var/freeswitch  --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
     else
        usermod -c "FreeSWITCH daemon,,," -g daemon -G audio freeswitch
 		fi

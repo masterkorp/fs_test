@@ -1,4 +1,5 @@
-#! /bin/sh
+#! /bin/bash
+
 ### BEGIN INIT INFO
 # Provides:          freeswitch
 # Required-Start:    $network $local_fs $remote_fs
@@ -9,9 +10,11 @@
 # Description:       An advanced platform for voice services
 ### END INIT INFO
 
-# Author: Alfredo Palhares <masterkorp@masterkorp.net>
-
 # Do NOT "set -e"
+# Before editing read
+# http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
+
+# Author: Alfredo Palhares <masterkorp@masterkorp.net>
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
@@ -59,107 +62,130 @@ do_setlimits() {
 #
 # Function that starts the daemon/service
 #
-do_start()
-{
-
-	# Return
-	#   0 if daemon has been started
-	#   1 if daemon was already running
-	#   2 if daemon could not be started
-	start-stop-daemon --quiet --start --pidfile $PIDFILE --exec $DAEMON --test || return 1
-	do_setlimits
-	start-stop-daemon --quiet --start --pidfile $PIDFILE --exec $DAEMON -- -u $USER -g $GROUP $FREESWITCH_PARAMS || return 1
-  return 0
+do_start() {
+  do_status >/dev/null 2>&1; state=$?;
+  if ((state == 3)); then
+    do_setlimits
+    $DAEMON -u $USER -g $GROUP $FREESWITCH_PARAMS
+  else
+    echo -e "\r"
+    log_failure_msg "$DESC is already running"
+    return 7
+  fi
+  # Wait for freeswitch to fully start
+  sleep 20
+  do_status >/dev/null 2>&1; state=$?;
+  if ((state == 0)); then
+    log_success_msg "Done"
+    return 0
+  else
+    echo -e "\r"
+    log_warning_msg "$DESC couldn't be started or is taking too long"
+    return 1
+  fi
 }
 
 #
 # Function that stops the daemon/service
 #
-do_stop()
-{
-	# Return
-	#   0 if daemon has been stopped
-	#   1 if daemon was already stopped
-	#   2 if daemon could not be stopped
-	#   other if a failure occurred
-	$DAEMON -stop
-	start-stop-daemon --stop --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name $NAME
-	RETVAL="$?"
-	[ "$RETVAL" = 2 ] && return 2
-	# Wait for children to finish too if this is a daemon that forks
-	# and if the daemon is only ever run from this initscript.
-	start-stop-daemon -c $USER --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON
-	[ "$?" = 2 ] && return 2
-	# Many daemons don't delete their pidfiles when they exit.
-	rm -f $PIDFILE
-	return "$RETVAL"
+do_stop() {
+  do_status >/dev/null 2>&1; state=$?;
+  if ((state == 0)); then
+    do_setlimits
+    $DAEMON -u $USER -g $GROUP -stop
+  else
+    echo -e "\r"
+    log_failure_msg "$DESC is not running"
+    return 7
+  fi
+  # Wait for freeswitch to fully stop
+  sleep 5
+  do_status >/dev/null 2>&1; state=$?;
+  if ((state == 3)); then
+    log_success_msg "Done"
+    return 0
+  else
+    echo -e "\r"
+    log_warning_msg "$DESC couldn't be stoped or is taking too long"
+    return 1
+  fi
 }
 
 #
-# Function that sends a SIGHUP to the daemon/service
+# Function that reloads the config files
 #
-# FIXME: This is not working properly
 do_reload() {
-	start-stop-daemon -c $USER --stop --signal 1 --quiet --pidfile $PIDFILE --name $NAME
-	return 0
+  reload=$(fs_cli -x reloadxml 2>&1)
+  echo -e "\r"
+  if [[ $reload =~ "Success" ]]; then
+    log_success_msg "Done"
+    return 0
+  else
+    log_failure_msg "Error realoading configuration"
+    return 1
+  fi
+}
+
+#
+# Function that reloads the config files
+#
+do_status() {
+  status=$(fs_cli -x status 2>&1)
+  # Program is running
+  if [[ $status =~ UP ]]; then
+    log_success_msg "$DESC is up"
+    return 0
+  # Program is not running
+  elif [[ $status =~ ERROR ]]; then
+    # Program is not running and the PIDFILE exists
+    if [[ -f $PIDFILE ]]; then
+      log_failure_msg "$DESC is down and pid file still exists"
+      return 1
+    fi
+    log_failure_msg "$DESC is down"
+    return 3
+  # Unknown status
+  else
+    log_warning_msg "Unknown status of $DESC"
+    return 4
+  fi
 }
 
 case "$1" in
   start)
-    log_daemon_msg "Starting $DESC \n" 
+    log_daemon_msg "Starting $DESC"
     do_start
-    case "$?" in
-      0|1) 
-        log_end_msg 0 
-      ;;
-      2) 
-        log_end_msg 1 
-      ;;
-    esac
+    log_end_msg $?
 	;;
   stop)
-    log_daemon_msg "Stopping $DESC \n"
+    log_daemon_msg "Stopping $DESC"
     do_stop
-    case "$?" in
-      0|1) 
-        log_end_msg 0 
-      ;;
-      2) 
-        log_end_msg 1 
-      ;;
-    esac
+    log_end_msg $?
 	;;
   reload|force-reload)
-    log_daemon_msg "Reloading $DESC \n"
+    log_daemon_msg "Reloading $DESC"
     do_reload
     log_end_msg $?
   ;;
   restart)
-    log_daemon_msg "Restarting $DESC \n"
+    log_daemon_msg "Restarting $DESC"
     do_stop
     case "$?" in
-      0|1)
-      do_start
-      case "$?" in
-        0)
-          log_end_msg 0
-        ;;
-        1)
-          log_end_msg 1
-        ;;
-        *)
-          log_end_msg 1
-        ;;
-      esac
-		;;
-	  *)
-		  log_end_msg 1
-		;;
+      0|7)
+        do_start
+        log_end_msg $?
+      ;;
+      1)
+        log_end_msg 1
+      ;;
     esac
 	;;
-  # TODO: Add status option
+  status)
+    do_status
+    log_end_msg $?
+  ;;
   *)
     echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
-    exit 3
+    exit 2
 	;;
 esac
